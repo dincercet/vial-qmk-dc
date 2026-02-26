@@ -3,9 +3,9 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3_ex2(
         //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-            KC_ESC,    KC_Q,    KC_W,               KC_E,               KC_R,               KC_T, XXXXXXX, MO(3),   KC_Y, KC_U,               KC_I,               KC_O,               KC_P,    KC_BSPC,
+            KC_ESC,    KC_Q,    LGUI_T(KC_W),       LCTL_T(KC_E),       LALT_T(KC_R),       KC_T, XXXXXXX, MO(3),   KC_Y, LALT_T(KC_U),       LCTL_T(KC_I),       LGUI_T(KC_O),       KC_P,    KC_BSPC,
         //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-            KC_TAB,    KC_A,    MT(MOD_LGUI, KC_S), MT(MOD_LCTL, KC_D), MT(MOD_LALT, KC_F), KC_G, XXXXXXX, XXXXXXX, KC_H, MT(MOD_LALT, KC_J), MT(MOD_LCTL, KC_K), MT(MOD_LGUI, KC_L), KC_SCLN, KC_QUOT,
+            KC_TAB,    KC_A,    KC_S,               KC_D,               KC_F,               KC_G, XXXXXXX, XXXXXXX, KC_H, KC_J,               KC_K,               KC_L,               KC_SCLN, KC_QUOT,
         //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
             KC_LGUI,   KC_Z,    KC_X,               KC_C,               KC_V,               KC_B,          KC_N,    KC_M, KC_COMM,            KC_DOT,             KC_SLSH,            KC_RALT,
         //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
@@ -29,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
             _______, KC_GRV,  KC_TILD, KC_CAPS, KC_MPRV, KC_MNXT, _______,    _______, KC_MPLY, KC_MUTE, KC_UP,   KC_VOLD, KC_VOLU, _______,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-            _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,    _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, _______,
+            _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,    _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, KC_DEL,
         //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
             _______, KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
         //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
             QK_BOOT, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,    _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-            _______, RM_TOGG, XXXXXXX, XXXXXXX, RM_PREV, RM_NEXT, _______,    _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_F11,  KC_F12,  _______,
+            _______, RM_TOGG, XXXXXXX, XXXXXXX, RM_PREV, RM_NEXT, _______,    _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_F11,  KC_F12,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
             _______, RM_SATD, RM_SATU, XXXXXXX, RM_HUED, RM_HUEU,                      RM_PREV, RM_NEXT, XXXXXXX, RM_VALD, RM_VALU, _______,
         //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
@@ -57,6 +57,20 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
         '*', 'L', 'L', 'L', 'L', 'L',            'R', 'R', 'R', 'R', 'R', '*',
                             '*', '*', '*',  '*', '*', '*'
     );
+
+bool get_speculative_hold(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) { // These keys may be speculatively held.
+        case LGUI_T(KC_W):
+        case LGUI_T(KC_O):
+        case LCTL_T(KC_E):
+        case LCTL_T(KC_I):
+        case LALT_T(KC_R):
+        case LALT_T(KC_U):
+        case LT(2,KC_ENT):
+            return true;
+    }
+    return false; // Disable otherwise.
+}
 
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
