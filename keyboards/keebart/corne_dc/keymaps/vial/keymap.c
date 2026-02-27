@@ -2,15 +2,15 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3_ex2(
-        //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-            KC_ESC,    KC_Q,    LGUI_T(KC_W),       LCTL_T(KC_E),       LALT_T(KC_R),       KC_T, XXXXXXX, MO(3),   KC_Y, LALT_T(KC_U),       LCTL_T(KC_I),       LGUI_T(KC_O),       KC_P,    KC_BSPC,
-        //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-            KC_TAB,    KC_A,    KC_S,               KC_D,               KC_F,               KC_G, XXXXXXX, XXXXXXX, KC_H, KC_J,               KC_K,               KC_L,               KC_SCLN, KC_QUOT,
-        //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-            KC_LGUI,   KC_Z,    KC_X,               KC_C,               KC_V,               KC_B,          KC_N,    KC_M, KC_COMM,            KC_DOT,             KC_SLSH,            KC_RALT,
-        //|-----------+--------+-------------------+-------------------+-------------------+-----+-------//--------+-----+-------------------+-------------------+-------------------+--------+--------|
-                                                                                 KC_LCTL, KC_SPC,  MO(1),  KC_RSFT, LT(2,KC_ENT), MO(2)
-                                                                            //`--------------------------//------------------------------'
+        //|-----------+----------------+---------------+---------------+---------------+-----+-------//--------+-------+---------------+---------------+---------------+---------------+--------|
+            KC_ESC,    LSFT_T(KC_Q),    LGUI_T(KC_W),   LCTL_T(KC_E),   LALT_T(KC_R),   KC_T, XXXXXXX, MO(3),   KC_Y,   LALT_T(KC_U),   LCTL_T(KC_I),   LGUI_T(KC_O),   LSFT_T(KC_P),   KC_BSPC,
+        //|-----------+----------------+---------------+---------------+---------------+-----+-------//--------+-------+---------------+---------------+---------------+---------------+--------|
+            KC_TAB,    KC_A,            KC_S,           KC_D,           KC_F,           KC_G, XXXXXXX, XXXXXXX, KC_H,   KC_J,           KC_K,           KC_L,           KC_SCLN,        KC_QUOT,
+        //|-----------+----------------+---------------+---------------+---------------+-----+-------//--------+-------+---------------+---------------+---------------+---------------+--------|
+            KC_LGUI,   KC_Z,            KC_X,           KC_C,           KC_V,           KC_B,                   KC_N,   KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_RALT,
+        //|-----------+----------------+---------------+---------------+---------------+-----+-------//--------+-------+---------------+---------------+---------------+---------------+--------|
+                                                                            KC_LCTL, KC_SPC,  MO(1),    KC_RSFT, LT(2, KC_ENT), MO(2)
+                                                                        //`--------------------------//------------------------------'
     ),
 
     [1] = LAYOUT_split_3x6_3_ex2(
@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
             _______, RM_TOGG, XXXXXXX, XXXXXXX, RM_PREV, RM_NEXT, _______,    _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_F11,  KC_F12,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
-            _______, RM_SATD, RM_SATU, XXXXXXX, RM_HUED, RM_HUEU,                      RM_PREV, RM_NEXT, XXXXXXX, RM_VALD, RM_VALU, _______,
+            EE_CLR,  RM_SATD, RM_SATU, XXXXXXX, RM_HUED, RM_HUEU,                      RM_PREV, RM_NEXT, XXXXXXX, RM_VALD, RM_VALU, _______,
         //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
                                                 _______, _______, _______,   _______, _______, _______
                                             //`--------------------------'  `--------------------------'
@@ -58,17 +58,46 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
                             '*', '*', '*',  '*', '*', '*'
     );
 
-bool get_speculative_hold(uint16_t keycode, keyrecord_t* record) {
-    switch (keycode) { // These keys may be speculatively held.
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(2, KC_ENT):
+            // Immediately select the hold action when another key is pressed.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LSFT_T(KC_Q):
+        case LSFT_T(KC_P):
         case LGUI_T(KC_W):
         case LGUI_T(KC_O):
         case LCTL_T(KC_E):
         case LCTL_T(KC_I):
         case LALT_T(KC_R):
         case LALT_T(KC_U):
-        case LT(2,KC_ENT):
+            // Immediately select the hold action when another key is tapped.
             return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
     }
-    return false; // Disable otherwise.
 }
+
+// bool get_speculative_hold(uint16_t keycode, keyrecord_t* record) {
+//     switch (keycode) { // These keys may be speculatively held.
+//         case LGUI_T(KC_W):
+//         case LGUI_T(KC_O):
+//         case LCTL_T(KC_E):
+//         case LCTL_T(KC_I):
+//         case LALT_T(KC_R):
+//         case LALT_T(KC_U):
+//         case LT(2, KC_ENT):
+//             return true;
+//     }
+//     return false; // Disable otherwise.
+// }
 
