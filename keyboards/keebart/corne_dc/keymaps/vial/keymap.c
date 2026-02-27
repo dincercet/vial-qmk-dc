@@ -72,35 +72,3 @@ bool get_speculative_hold(uint16_t keycode, keyrecord_t* record) {
     return false; // Disable otherwise.
 }
 
-#ifdef ENCODER_MAP_ENABLE
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [0] =
-    {
-        ENCODER_CCW_CW(RGB_MOD, RGB_RMOD),
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD),
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD),
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD),
-    },
-    [1] =
-    {
-        ENCODER_CCW_CW(RGB_MOD, RGB_RMOD),
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD),
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD),
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD),
-    },
-    [2] =
-    {
-        ENCODER_CCW_CW(RGB_MOD, RGB_RMOD),
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD),
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD),
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD),
-    },
-    [3] =
-    {
-        ENCODER_CCW_CW(RGB_MOD, RGB_RMOD),
-        ENCODER_CCW_CW(RGB_HUI, RGB_HUD),
-        ENCODER_CCW_CW(RGB_VAI, RGB_VAD),
-        ENCODER_CCW_CW(RGB_SAI, RGB_SAD),
-    },
-};
-#endif
