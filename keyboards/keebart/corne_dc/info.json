@@ -9,10 +9,10 @@
         "bootmagic": true,
         "extrakey": true,
         "nkro": true,
-        "oled": true,
         "rgblight": false,
         "rgb_matrix": true,
-        "mousekey": true
+        "mousekey": true,
+        "encoder": true
     },
     "matrix_pins": {
         "direct": [
@@ -27,6 +27,12 @@
         "device_version": "1.0.0",
         "pid": "0x0000",
         "vid": "0xFEED"
+    },
+    "encoder": {
+        "rotary": [
+            { "pin_a": "GP5", "pin_b": "GP7" },
+            { "pin_a": "GP6", "pin_b": "GP7" }
+        ]
     },
     "bootmagic": {
         "enabled": true,
@@ -44,6 +50,14 @@
                     ["GP11", "GP14", "GP4", "GP0", "GP28", "GP26", "GP23"],
                     ["GP15", "GP18", "GP5", "GP29", "GP20", "GP22", null],
                     [null, null, null, "GP16", "GP17", "GP19", null]
+                ]
+            }
+        },
+        "encoder": {
+            "right": {
+                "rotary": [
+                    { "pin_a": "GP24", "pin_b": "GP7" },
+                    { "pin_a": "GP6", "pin_b": "GP7" }
                 ]
             }
         },
@@ -71,7 +85,7 @@
                 { "matrix": [0, 4], "x": 4, "y": 0.1 },
                 { "matrix": [0, 5], "x": 5, "y": 0.2 },
                 { "matrix": [0, 6], "x": 6, "y": 0.7 },
-
+                { "matrix": [4, 6], "x": 8, "y": 0.7 },
                 { "matrix": [4, 5], "x": 9, "y": 0.2 },
                 { "matrix": [4, 4], "x": 10, "y": 0.1 },
                 { "matrix": [4, 3], "x": 11, "y": 0 },
